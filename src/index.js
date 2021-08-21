@@ -3,13 +3,9 @@ const text = document.getElementById('text');
 const tagsArea = document.getElementsByClassName('tags-area')[0];
 const modeChange = document.getElementsByTagName('input')[0];
 
-function clean(el) {
-    el.innerHTML = '';
-}
-
 const tag = {
     showTags: () => {
-        clean(tagsArea);
+        tagsArea.innerHTML = ''
         for (let a = 0; a < tag.tagsName.length; a++) {
             tagsArea.innerHTML += `<span>${tag.tagsName[a]}<button name="${tag.tagsName[a]}">X</button></span> `;
         }
@@ -65,6 +61,6 @@ text.oninput = () => text.value = text.value.replace(/\s+/g, ' ');
 
 but[0].onclick = () => {
     tag.tagsName = text.value;
-    clean(text);
+    text.value = '';
     tag.showTags();
 };
