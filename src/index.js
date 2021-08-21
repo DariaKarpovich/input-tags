@@ -1,66 +1,75 @@
-const but = document.getElementsByTagName('button');
+const btnAdd = document.querySelector('.add');
 const text = document.getElementById('text');
 const tagsArea = document.getElementsByClassName('tags-area')[0];
 const modeChange = document.getElementsByTagName('input')[0];
 
-const tag = {
-    showTags: () => {
-        tagsArea.innerHTML = ''
-        for (let a = 0; a < tag.tagsName.length; a++) {
-            tagsArea.innerHTML += `<span>${tag.tagsName[a]}<button name="${tag.tagsName[a]}">X</button></span> `;
-        }
-
-        for (let j = 1; j < but.length; j++) {
-            but[j].onclick = (e) => tag.deleteTag(e.target.name);
-        }
-    },
-
-    deleteTag: (element) => {
+class Tag {
+    deleteTag(element) {
         localStorage.removeItem(element);
-        tag.showTags();
-    },
+    }
 
-    get tagsName() {
-        let keys = Object.keys(localStorage);
-        let arrTags = [];
+    addTag() {
+        this.tags = text.value;
+        text.value = '';
+    }
 
-        for (let key of keys) {
-            arrTags.push(localStorage.getItem(key));
-        }
-        return arrTags;
-    },
+    get tags() {
+        return Object.values(localStorage);
+    }
 
-    set tagsName(tags) {
-        if (tags == '' || tags == ' ') {
+    set tags(el) {
+        if (el == '' || el == ' ') {
             alert('you not input tag');
             return;
         }
 
-        if (tags[tags.length - 1] === ' ') tags = tags.slice(0, -1);
-        if (tags[0] === ' ') tags = tags.slice(1);
+        if (el[el.length - 1] === ' ') el = el.slice(0, -1);
+        if (el[0] === ' ') el = el.slice(1);
 
-        let arrNewTags = tags.split(' ');
+        let tagArr = el.split(' ');
+        tagArr.forEach(el => localStorage.setItem(el, el));
+    }
+}
 
-        for (let i = 0; i < arrNewTags.length; i++) {
-            localStorage.setItem(arrNewTags[i], arrNewTags[i]);
+class Render {
+    constructor(tag) {
+        this.tag = tag;
+    }
+
+    toggleReadOnly() {
+        text.disabled = !text.disabled;
+        btnAdd.disabled = !btnAdd.disabled;
+        Array.from(this.btn).forEach(el => el.classList.toggle('hide'));
+    }
+
+    get btn() {
+        return document.querySelectorAll('.btn-del');
+    }
+
+    renderTags() {
+        let reducer = (acc, value) => `<span>${value}<button name="${value}" class="btn-del">X</button></span> ` + acc;
+        tagsArea.innerHTML = this.tag.tags.reduce(reducer, '');
+        this.createBtnDel(this.btn);
+    }
+
+    createBtnDel() {
+        for (let b of this.btn) {
+            b.onclick = (e) => {
+                this.tag.deleteTag(e.target.name);
+                this.renderTags();
+            };
         }
     }
-};
+}
 
-modeChange.onchange = () => {
-    text.disabled = !text.disabled;
-
-    for (let u = 0; u < but.length; u++) {
-        but[u].classList.toggle('hide');
-    }
-};
-
-tag.showTags();
+const tag = new Tag();
+const render = new Render(tag);
+render.renderTags();
 
 text.oninput = () => text.value = text.value.replace(/\s+/g, ' ');
+modeChange.addEventListener('click', () => render.toggleReadOnly());
 
-but[0].onclick = () => {
-    tag.tagsName = text.value;
-    text.value = '';
-    tag.showTags();
+btnAdd.onclick = () => {
+    tag.addTag();
+    render.renderTags();
 };
