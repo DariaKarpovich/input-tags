@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+}
+
+.hide {
+    display: none;
+}
+
+.wrapper {
+    position: absolute;
+    width: 600px;
+    height: 400px;
+    background-color: gainsboro;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: rgb(216, 216, 216) -5px -5px;
+    border-radius: 5%;
+}
+
+p {
+    margin: 5px;
+    padding: 0;
+    text-align: center;
+}
+
+label {
+    margin: 5px;
+    padding: 0;
+    text-align: center;
+}
+
+.checkbox {
+    width: 15px;
+    height: 15px;
+}
+
+.add-tags {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    margin: 10px auto 0;
+    height: 20%;
+}
+
+input {
+    border: 2px solid gray;
+    border-radius: 2%;
+    width: 70%;
+    height: 55%;
+    font-size: xx-large;
+}
+
+.add {
+    color: white;
+    background-color: rgb(233, 130, 130);
+    border: 2px solid rgb(247, 144, 144);
+    border-radius: 5%;
+    width: 25%;
+    height: 55%;
+    margin-left: 10px;
+}
+
+.tags-area {
+    display: flex;
+    flex-wrap: wrap;
+    width: 85%;
+    height: 60%;
+    margin: 30px;
+}
+
+span {
+    background-color:rgb(156, 245, 211);
+    border-radius: 10%;
+    padding: 5px;
+    margin: 5px;
+    font-size: 25px;
+    height: 40px;
+}
+
+.tags-area>span>button {
+    width: 15px;
+    height: 15px;
+    border: 1px solid black;
+    background-color: skyblue;
+    margin: 4px;
+    padding: 0;
+}
