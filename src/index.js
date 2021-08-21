@@ -8,26 +8,18 @@ class Tag {
         localStorage.removeItem(element);
     }
 
-    addTag() {
-        this.tags = text.value;
-        text.value = '';
-    }
-
-    get tags() {
-        return Object.values(localStorage);
-    }
-
-    set tags(el) {
+    addTag(el) {
         if (el == '' || el == ' ') {
             alert('you not input tag');
             return;
         }
 
-        if (el[el.length - 1] === ' ') el = el.slice(0, -1);
-        if (el[0] === ' ') el = el.slice(1);
-
-        let tagArr = el.split(' ');
+        let tagArr = el.trim().split(' ');
         tagArr.forEach(el => localStorage.setItem(el, el));
+    }
+
+    get tags() {
+        return Object.values(localStorage);
     }
 }
 
@@ -70,6 +62,7 @@ text.oninput = () => text.value = text.value.replace(/\s+/g, ' ');
 modeChange.addEventListener('click', () => render.toggleReadOnly());
 
 btnAdd.onclick = () => {
-    tag.addTag();
+    tag.addTag(text.value);
+    text.value = '';
     render.renderTags();
 };
